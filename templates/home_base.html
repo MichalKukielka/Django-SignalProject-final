@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <div class="row mt-4 text-center">
+
+      <div class="col-lg-12">
+
+        <h1>Signal Analysis Application</h1>
+
+        {% if request.user.is_authenticated %}
+
+        <span>Hello, {{ request.user.username }}!</span>
+        <a href="{% url 'logout' %}">You can logout here <i class="fas fa-sign-out-alt"></i></a>
+        {% endif %}
+
+        <hr>
+      </div>
+
+    </div>
+
+      {% block storage_content %}
+
+      {% endblock %}
+
+  </div>
+
+{% endblock %}

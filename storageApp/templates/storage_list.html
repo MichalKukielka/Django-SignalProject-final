@@ -1,0 +1,118 @@
+
+{% extends 'home_base.html' %}
+{% load static %}
+
+
+{% block storage_content %}
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="text-center">You could also go to this section of project:</p>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-12">
+     <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <a href="{% url 'storage-main' %}" class="btn btn-outline-default btn-sm btn-block">Back to Storage Management Panel</a>
+    </div>
+    <div class="col-lg-4"></div>
+  </div>
+
+
+
+  {% if not signals %}
+    <div class="signal-storage-form mt-3 mb-4 text-center">
+      <h2>No signals uploaded yet</h2>
+      <p>Use this form to upload any of them</p>
+      <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+          <a href="{% url 'storage-input' %}" class="btn btn-outline-primary btn-block">Input Signal</a>
+        </div>
+        <div class="col-lg-3"></div>
+      </div>
+    </div>
+  {% else %}
+    <div class="signal-storage-form mt-3 mb-4 text-center">
+      <h2>Uploaded Signals</h2>
+    </div>
+
+    <ul class="list-group list-group-flush pr-5 pl-5" style="list-style-type: none;">
+    {% for signal in signals %}
+      <li>
+        <div class="row">
+          <h4>{{ signal.name }}</h4>
+        </div>
+        <div class="row ">
+          <p class="mb-0 pb-0">Date of addition:
+            <b>{{ signal.add_date_pretty }}</b>
+          </p>
+        </div>
+        <div class="row">
+          <p class="mb-1">Date of the last analysis: {{ signal.last_edit_date }}</p>
+        </div>
+        <div class="row">
+          <h6 class="mb-1">Adnotations:</h6>
+        </div>
+        <div class="mw-80" style="word-wrap: break-word;">
+          <p>{{ signal.adnotations | safe  | linebreaks | truncatewords:10 }}</p>
+        </div>
+        <div class="row">
+          <form action="{% url 'display-details' %}">
+            <button name="signal_id" value="{{ signal.id }}" class="btn btn-outline-success mr-3">Perform Analysis</button>
+          </form>
+          <a href="{{ signal.results_file.url }}" download><button class="btn btn-outline-warning mr-3">Download Results</button></a>
+          <button data-id="{{ signal.id }}" onclick='delteSignal(this)' class="btn btn-outline-danger">Delete Signal</button>
+        </div>
+        {% if forloop.last %}
+        {% else %}
+          <hr>
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+
+
+
+  </ul>
+
+
+  <script>
+    var csrf_token = '{{ csrf_token }}'
+
+    function delteSignal(element){
+
+      let id = element.dataset.id
+      element.closest('li').remove()
+
+      fetch('', {
+        method: 'DELETE',
+
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+
+        body: JSON.stringify({
+          'id': id
+        }),
+
+        credentials: 'same-origin',
+
+      })
+    }
+
+  </script>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'home_base.html' %}
+
+{% block storage_content %}
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="text-center">You could also go to this section of project:</p>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+     <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+
+    <div class="col-lg-6">
+     <a href="{% url 'display-list' %}" class="btn btn-primary btn-block">Signal processing</a>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <a href="{% url 'storage-input' %}" class="btn btn-outline-primary btn-block">Input Signal</a>
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+  <br>
+
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <a href="{% url 'storage-list' %}" class="btn btn-outline-primary btn-block">Signals list</a>
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+
+{% endblock %}

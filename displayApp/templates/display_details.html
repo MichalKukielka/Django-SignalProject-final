@@ -1,0 +1,225 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+
+{% block storage_content %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p style="text-align: center;">You could also go to this section of project:</p>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+     <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+
+    <div class="col-lg-6">
+     <a href="{% url 'storage-main' %}" class="btn btn-primary btn-block">Signal Management</a>
+    </div>
+
+  </div>
+  <hr>
+
+  <h3 class="text-center pt-2 pb-2">{{ signal.name }}</h3>
+  <h6 class="pl-2">Adnotations:</h6>
+  <div class="bg-light pr-3 pl-4" style="word-wrap: break-word;">
+    <p>{{ signal.adnotations | safe  | linebreaks }}</p>
+  </div>
+
+  <hr>
+
+  <div id="signal_plot" class="ml-2 mr-2"></div>
+
+  <h6 class="pl-2">Analysis of Energy:</h6>
+  <div class="bg-light pr-4 pl-4 pt-3 pb-2 text-dark">
+    <p class="mb-2"><span class="font-weight-bold">Mean: </span>{{ signal_mean }} {{ signal.amplitude_unit }}</p>
+    <p class="mb-2"><span class="font-weight-bold">Energy: </span>{{ signal_energy }}</p>
+    <p class="mb-2"><span class="font-weight-bold">Power: </span>{{ signal_power }}</p>
+  </div>
+
+  <div id="signal_fft_plot" class="ml-2 mr-2 mt-4"></div>
+
+  <h6 class="pl-2">Filtration:</h6>
+  <div class="bg-light pr-4 pl-4 pb-4">
+    <div class="row mt-3">
+
+      <div class="col-lg-4 text-center">
+        <div class="bg-light pr-4 pl-4 pt-2">
+
+          <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
+
+            <h6>Lowpass</h6>
+
+            <input type="hidden" name="filter_type" value="lowpass">
+            <input type="hidden" name="signal_id" value="{{ signal.id }}">
+
+            <label>Filter length:</label>
+            <input name="filter_len" value="filter_len" type="number" class="form-control" required="">
+
+            <label class="mt-2">Cutoff frq:</label>
+            <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
+
+            <input type="hidden" name="cutoff_frq2" value="None">
+
+            <label class="mt-2">Filter window:</label>
+            <select name="filter_window" class="form-control text-center">
+                  <option value="bartlett">Bartlett</option>
+                  <option value="hamming">Hamming</option>
+                  <option value="blackman">Blackman</option>
+            </select>
+
+            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+
+          </form>
+
+        </div>
+      </div>
+
+      <div class="col-lg-4 text-center">
+        <div class="bg-light pr-4 pl-4 pt-2">
+
+          <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
+
+            <h6>Highpass</h6>
+
+            <input type="hidden" name="filter_type" value="highpass">
+            <input type="hidden" name="signal_id" value="{{ signal.id }}">
+
+            <label>Filter length:</label>
+            <input name="filter_len" value="filter_len" type="number" class="form-control" required="">
+
+            <label class="mt-2">Cutoff frq:</label>
+            <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
+
+            <input type="hidden" name="cutoff_frq2" value="None">
+
+            <label class="mt-2">Filter window:</label>
+            <select name="filter_window" class="form-control text-center">
+                  <option value="bartlett">Bartlett</option>
+                  <option value="hamming">Hamming</option>
+                  <option value="blackman">Blackman</option>
+            </select>
+
+            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+
+          </form>
+
+        </div>
+      </div>
+
+      <div class="col-lg-4 text-center">
+        <div class="bg-light pr-4 pl-4 pt-2">
+
+          <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
+
+            <h6>Bandpass</h6>
+
+            <input type="hidden" name="filter_type" value="bandpass">
+            <input type="hidden" name="signal_id" value="{{ signal.id }}">
+
+            <label>Filter length:</label>
+            <input name="filter_len" value="filter_len" type="number" class="form-control" required="">
+
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="mt-2">Cutoff frq low:</label>
+                <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
+              </div>
+              <div class="col-lg-6">
+                <label class="mt-2">Cutoff frq high:</label>
+                <input name="cutoff_frq2" value="cutoff_frq2" type="number" class="form-control" required="">
+              </div>
+            </div>
+
+
+            <label class="mt-2">Filter window:</label>
+            <select name="filter_window" class="form-control text-center">
+                  <option value="bartlett">Bartlett</option>
+                  <option value="hamming">Hamming</option>
+                  <option value="blackman">Blackman</option>
+            </select>
+
+            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+
+    var signal_trace = {
+        x: {{ time }},
+        y: {{ signal_data }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(51, 173, 255)',
+            width: .8
+          }
+    };
+
+    var signal_data = [signal_trace]
+
+    var signal_plot_layout = {
+          title: 'Signal(t)',
+          xaxis: {
+            showline: true,
+            title:'Time [sample]',
+            rangeslider: {}
+            },
+          yaxis: {
+            rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'Signal(t) [{{ amplitude_unit }}]',
+            rangeslider: {}
+            },
+          };
+
+    Plotly.newPlot('signal_plot', signal_data, signal_plot_layout);
+
+  </script>
+
+  <script type="text/javascript">
+
+    var signal_fft_trace = {
+        x: {{ frequency_vector }},
+        y: {{ signal_fft }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(255, 51, 51)',
+            width: .8
+          }
+    };
+
+    var signal_fft_data = [signal_fft_trace]
+
+    var signal_fft_plot_layout = {
+          title: 'FFT of Signal(t)',
+          xaxis: {
+            showline: true,
+            title:'Fequency [Hz]',
+            rangeslider: {}
+            },
+          yaxis: {rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'FFT',
+            },
+          };
+
+    Plotly.newPlot('signal_fft_plot', signal_fft_data, signal_fft_plot_layout);
+
+  </script>
+
+{% endblock %}

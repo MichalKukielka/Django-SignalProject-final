@@ -1,0 +1,50 @@
+{% extends 'home_base.html' %}
+
+{% block storage_content %}
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="text-center">You could also go to this section of project:</p>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+     <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+
+    <div class="col-lg-6">
+     <a href="{% url 'display-list' %}" class="btn btn-primary btn-block">Signal processing</a>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row mb-3">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+      <a href="{% url 'storage-main' %}" class="btn btn-outline-default btn-sm btn-block">Back to Storage Management Panel</a>
+    </div>
+    <div class="col-lg-4"></div>
+  </div>
+
+  <div class="signal-storage-form mt-2 text-center">
+    <h2>Input signal</h2>
+
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <br>
+            <button type="submit" class="btn btn-outline-success">Upload Signal</button>
+          </form>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+
+  </div>
+
+{% endblock %}

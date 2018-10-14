@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <div class="container text-center">
+    <div>
+      <h1 class="mt-3">Sign Up</h1>
+      <hr>
+
+      <div class="row mt-2 mb-2">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+          <a href="{% url 'login' %}" class="btn btn-outline-default btn-sm">Back to Login</a>
+        </div>
+        <div class="col-lg-4"></div>
+      </div>
+
+      {% if messages %}
+          <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label>Username:</label>
+          {{ form.username }}
+        </div>
+
+        <div class="mb-3">
+          <label>Password:</label>
+          {{ form.password1 }}
+        </div>
+
+        <div class="mb-3">
+          <label>Re-Password:</label>
+          {{ form.password2 }}
+        </div>
+
+        <div class="mb-4">
+          <label>Captcha:</label><br>
+          {{ form.captcha }}
+        </div>
+
+        <hr>
+        <button type="submit" class="btn btn-outline-primary">SignUp</button>
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

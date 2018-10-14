@@ -1,0 +1,185 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+
+{% block storage_content %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <p style="text-align: center;">You could also go to this section of project:</p>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+     <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+
+    <div class="col-lg-6">
+     <a href="{% url 'storage-main' %}" class="btn btn-primary btn-block">Signal Management</a>
+    </div>
+
+  </div>
+  <hr>
+
+  <h3 class="text-center pt-2 pb-2">{{ signal.name }} - {{ filtration_type }} filtration</h3>
+  <h6 class="pl-2">Adnotations:</h6>
+  <div class="bg-light pr-3 pl-4" style="word-wrap: break-word;">
+    <p>{{ signal.adnotations | safe  | linebreaks }}</p>
+  </div>
+
+  <hr>
+
+  <div id="signal_plot" class="ml-2 mr-2"></div>
+
+  <script type="text/javascript">
+
+    var signal_trace = {
+        x: {{ time }},
+        y: {{ signal_data }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(51, 173, 255)',
+            width: .8
+          }
+    };
+
+    var signal_data = [signal_trace]
+
+    var signal_plot_layout = {
+          title: ' Filtered Signal(t)',
+          xaxis: {
+            showline: true,
+            title:'Time [sample]',
+            rangeslider: {}
+            },
+          yaxis: {
+            rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'Filtered Signal(t) [{{ amplitude_unit }}]',
+            rangeslider: {}
+            },
+          };
+
+    Plotly.newPlot('signal_plot', signal_data, signal_plot_layout);
+
+  </script>
+
+
+  <h6 class="pl-2">Analysis of Energy:</h6>
+  <div class="bg-light pr-4 pl-4 pt-3 pb-2 text-dark">
+    <p class="mb-2"><span class="font-weight-bold">Mean: </span>{{ signal_mean }} {{ amplitude_unit }}</p>
+    <p class="mb-2"><span class="font-weight-bold">Energy: </span>{{ signal_energy }}</p>
+    <p class="mb-2"><span class="font-weight-bold">Power: </span>{{ signal_power }}</p>
+  </div>
+
+  <div id="signal_fft_plot" class="ml-2 mr-2 mt-4"></div>
+
+  <script type="text/javascript">
+
+    var signal_fft_trace = {
+        x: {{ frequency_vector }},
+        y: {{ signal_fft }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(255, 51, 51)',
+            width: .8
+          }
+    };
+
+    var signal_fft_data = [signal_fft_trace]
+
+    var signal_fft_plot_layout = {
+          title: 'FFT of filtered signal',
+          xaxis: {
+            showline: true,
+            title:'Fequency [Hz]',
+            rangeslider: {}
+            },
+          yaxis: {rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'FFT',
+            },
+          };
+
+    Plotly.newPlot('signal_fft_plot', signal_fft_data, signal_fft_plot_layout);
+
+  </script>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+      <div id="freq_response"></div>
+    </div>
+
+    <div class="col-lg-6">
+      <div id="filter_coefficients"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    var freq_w_trace = {
+        x: {{ freq_w }},
+        y: {{ freq_h }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(92, 188, 113)',
+            width: .8
+          }
+    };
+
+    var freq_w_data = [freq_w_trace]
+
+    var freq_w_layout = {
+          title: 'Filter frequency response',
+          xaxis: {
+            showline: true,
+            title:'Frequency [rad/sample]',
+            },
+          yaxis: {
+            rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'Amplitude [dB]',
+            },
+          };
+
+    Plotly.newPlot('freq_response', freq_w_data, freq_w_layout);
+
+    var filter_coefficients_trace = {
+        x: {{ vector }},
+        y: {{ filter_design }},
+        type: 'scatter',
+        line: {
+            color: 'rgb(224, 146, 82)',
+            width: .8
+          }
+    };
+
+    var filter_coefficients_data = [filter_coefficients_trace]
+
+    var filter_coefficients_layout = {
+          title: 'Filter Coefficients',
+          xaxis: {
+            showline: true,
+            title:'Filter Coefficients [taps]',
+            },
+          yaxis: {
+            rangemode: 'tozero',
+            showline: true,
+            zeroline: false,
+            title: 'Angle [rad]',
+            },
+          };
+
+    Plotly.newPlot('filter_coefficients', filter_coefficients_data, filter_coefficients_layout);
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'home_base.html' %}
+
+{% block storage_content %}
+
+<style>
+
+  .my_paragrah{
+    font-size: 1.23em;
+    font-family: 'Lora', serif;
+    color: black;
+    text-indent: 2.3em;
+    line-height: 1.68em;
+  }
+
+  .my_ul{
+    font-size: 1.23em;
+    font-family: 'Lora', serif;
+    color: black;
+    line-height: 1.68em;
+  }
+
+  .my_indent {
+    text-indent: 1em;
+  }
+
+  .my_indent2 {
+    text-indent: 2em;
+  }
+
+
+</style>
+
+<div class="row">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+    <a href="{% url 'home' %}" class="btn btn-outline-default btn-sm btn-block">Back to Homepage</a>
+  </div>
+  <div class="col-lg-4"></div>
+</div>
+
+    <h1 class="text-info mt-4">Main features</h1>
+    <p class="text-justify my_paragrah">
+      The application allows You to use two main modules. The first of them is the <span class="text-info">Signal Management</span> module.
+      It provides the user with two options. The <span class="text-info">Input Signal</span> option invokes a form by means of which the user
+      can add his data to the signal database. This form requires data such as signal name, data annotations, signal amplitude unit, sampling
+      frequency, and data file. The second option is to call the list of entered files - <span class="text-info">Signal List</span>. It allows
+      advanced data management. By this section You could to go to the analysis of a specific file, download result files from the analysis
+      and delete specific records from the database.
+    </p>
+    <p class="text-justify my_paragrah">
+      The second module is named the <span class="text-info">Signal Processing</span>. It allows You to select specific data from the list of
+      signals uploaded to the database. The selected signal is displayed and analyzed. It is possible to perform digital filtration on this data.
+      The results of the analysis are saved in the appropriate file.
+    </p>
+
+    <h3 class="text-info">Additional information</h3>
+
+    <p class="text-justify my_paragrah">
+      The user can send data in the following file formats:
+    </p>
+    <ul class="my_ul">
+      <li>.mat;</li>
+      <li>.json;</li>
+      <li>.csv.</li>
+    </ul>
+    <p class="text-justify my_paragrah">
+      For .mat and .csv formats, vertical (column) placing of data, without any headers is recommended.
+      The vector of time for data is prepared by the application. While working with the .json format,
+      the data must be under the <span class="text-info">'signal_data'</span> key and be a list type.
+    </p>
+    <p class="text-justify my_paragrah">
+      The analysis results file is prepared in .json format and has the following structure:
+    </p>
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="bg-light pt-3 pb-0 mb-0 pl-3 text-dark">
+          <p>
+          {<br>
+            <p class="my_indent mb-0">"main_info": {<br></p>
+              <p class="my_indent2 mb-0">"name": "",<br></p>
+              <p class="my_indent2 mb-0">"author": "",<br></p>
+              <p class="my_indent2 mb-0">"adnotations": "",<br></p>
+              <p class="my_indent2 mb-0">"amplitude_unit": "",<br></p>
+              <p class="my_indent2 mb-0">"add_date": "",<br></p>
+              <p class="my_indent2 mb-0">"last_edit_date": ""<br></p>
+            <p class="my_indent mb-0">},<br></p>
+            <p class="my_indent mb-0">"basic_analysis": {<br></p>
+              <p class="my_indent2 mb-0">"sample_rate": [],<br></p>
+              <p class="my_indent2 mb-0">"signal_values": [],<br></p>
+              <p class="my_indent2 mb-0">"fft_values": [],<br></p>
+              <p class="my_indent2 mb-0">"frequency_vector": [],<br></p>
+              <p class="my_indent2 mb-0">"signal_mean": [],<br></p>
+              <p class="my_indent2 mb-0">"signal_power": [],<br></p>
+              <p class="my_indent2 mb-0">"signal_energy": []<br></p>
+            <p class="my_indent mb-0">},<br></p>
+            <p class="my_indent mb-0">"filration_results": {<br></p>
+              <p class="my_indent2 mb-0">"lowpass": {},<br></p>
+              <p class="my_indent2 mb-0">"highpass": {},<br></p>
+              <p class="my_indent2 mb-0">"bandpass": {}<br></p>
+            <p class="my_indent mb-0">}<br></p>
+          }
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+
+{% endblock %}

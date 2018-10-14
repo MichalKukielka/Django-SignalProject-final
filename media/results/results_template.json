@@ -1,0 +1,24 @@
+{
+  "main_info": {
+    "name": "",
+    "author": "",
+    "adnotations": "",
+    "amplitude_unit": "",
+    "add_date": "",
+    "last_edit_date": ""
+  },
+  "basic_analysis": {
+    "sample_rate": [],
+    "signal_values": [],
+    "fft_values": [],
+    "frequency_vector": [],
+    "signal_mean": [],
+    "signal_power": [],
+    "signal_energy": []
+  },
+  "filration_results": {
+    "lowpass": {},
+    "highpass": {},
+    "bandpass": {}
+  }
+}

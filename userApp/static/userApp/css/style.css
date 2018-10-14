@@ -1,0 +1,23 @@
+.calendar_entry {
+  background-color: #eee;
+}
+body, html {
+  width: 100%;
+  display: grid;
+}
+
+footer {
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  padding-bottom: 0.5%;
+}
+
+#page-center {
+  vertical-align: middle;
+}
+
+#footer_logo {
+  height:80px;
+  margin: 0 auto;
+}

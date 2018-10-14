@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="signal, processing, view, managemnet, display, django">
+    <meta name="description" content="Master's Degree Thesis - Signal Project Application">
+    <meta name="author" content="Michał Kukiełka">
+    <link rel="stylesheet" href="{% static 'css\bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css\style.css' %}" type="text/css" />
+    <link rel='icon' href="{% static 'css\favicon.ico' %}" type='image/x-icon'/ >
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title>Signal Analysis App</title>
+  </head>
+
+  <body>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <div class="container">
+      <hr>
+      <div class="row mb-2 pl-1">
+        <div class="col-lg-1 ">
+          <img id="footer_logo" src="https://www.agh.edu.pl/fileadmin/default/templates/images/uczelnia/siw/znak/znak_pozytyw/agh_znk_pzt_rgb_150ppi.jpg">
+        </div>
+        <div class="col-lg-11 pl-0 ml-0 pt-2">
+          <h6>Author: Michał Kukiełka</h6>
+          <h6>Thesis Supervisor: dr hab. inż. Joanna Iwaniec</h6>
+          <h6><i class="far fa-copyright"></i> {% now 'Y' %}</h6>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,47 @@
+{% extends 'home_base.html' %}
+
+{% block storage_content %}
+
+  <style>
+    .my_paragrah2{
+
+      line-height: 1.68em;
+    }
+  </style>
+
+  <div class="row mb-1">
+    <div class="col-lg-6">
+      <a href="{% url 'storage-main' %}" class="btn btn-primary btn-block">Signal management</a>
+    </div>
+
+    <div class="col-lg-6">
+      <a href="{% url 'display-list' %}" class="btn btn-primary btn-block">Signal processing</a>
+    </div>
+  </div>
+
+
+  <div class="jumbotron mt-3">
+    <h1 class="text-info">What is this app?</h1>
+    <h5 class="text-justify my_paragrah2">
+      Presented web application is a project created on the basis of the Django Framework in version 2.0.3.
+      It uses the PostgreSQL 10 database. It is a solution prepared to transfer complicated calculations
+      related to data analysis to the cloud. On several examples, the application shows that it is
+      possible to perform efficient data analysis in easy way.
+    </h5>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h6>If you are a new user, do not hesitate to check helpdesk to obtain crucial information.</h6>
+    </div>
+  </div>
+  <div class="row mt-2 mb-2">
+    <div class="col-lg-5"></div>
+    <div class="col-lg-2">
+      <a href="{% url 'help' %}" class="btn btn-outline-info btn-sm btn-block">Help</a>
+    </div>
+    <div class="col-lg-5"></div>
+  </div>
+
+
+{% endblock %}
