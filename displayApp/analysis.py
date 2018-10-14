@@ -147,6 +147,7 @@ def save_results_to_json(
         json.dump(results, outfile)
 
     signal.results_file.name = 'results/' + input_file_name + '_results.json'
+    signal.results_file.close()
     signal.save()
 
 
@@ -187,6 +188,7 @@ def save_filtration_results_to_json(
             json.dump(results, outfile)
 
         signal.results_file.name = 'results/' + input_file_name + '_results.json'
+        signal.results_file.close()
         signal.save()
 
 

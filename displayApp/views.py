@@ -37,7 +37,7 @@ def display_details(request):
                                                 signal_mean,
                                                 signal_energy,
                                                 signal_power)
-
+        signal.results_file.close()
         signal.last_edit_date = datetime.now
         signal.save()
 
@@ -107,6 +107,7 @@ def display_filtration(request):
                                                                filter_window)
 
             signal.input_file.close()
+            signal.results_file.close()
             signal.last_edit_date = datetime.now
             signal.save()
 
