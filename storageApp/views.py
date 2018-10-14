@@ -36,7 +36,7 @@ def storage_list(request):
 
     if request.method == 'DELETE':
 
-        id = json.loads(request.body)['id']
+        id = str(json.loads(request.body)['id'])
         signal = get_object_or_404(InputSignal, id=id)
         signal.delete()
 
