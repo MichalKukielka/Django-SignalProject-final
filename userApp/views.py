@@ -21,6 +21,7 @@ def help(request):
 
 def signup(request):
 
+    messages = ''
     if request.method == 'POST':
 
         form = CaptchaUserCreationForm(request.POST)
@@ -32,9 +33,10 @@ def signup(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect('/home')
-
-
+        else:
+            messages = 'Chceck your input.'
     else:
         form = CaptchaUserCreationForm()
 
-    return render(request, 'registration/signup.html', {'form': form})
+
+    return render(request, 'registration/signup.html', {'form': form, 'messages': messages})
