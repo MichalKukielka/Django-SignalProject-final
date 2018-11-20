@@ -35,8 +35,8 @@
 
   <div id="signal_plot" class="ml-2 mr-2"></div>
 
-  <h6 class="pl-2">Analysis of Energy:</h6>
-  <div class="bg-light pr-4 pl-4 pt-3 pb-2 text-dark">
+  <h6 class="pl-2 w-75 mr-auto ml-auto">Analysis of Energy:</h6>
+  <div class="bg-light pr-4 pl-4 pt-3 pb-2 text-dark w-75 mr-auto ml-auto">
     <p class="mb-2"><span class="font-weight-bold">Mean: </span>{{ signal_mean }} {{ signal.amplitude_unit }}</p>
     <p class="mb-2"><span class="font-weight-bold">Energy: </span>{{ signal_energy }}</p>
     <p class="mb-2"><span class="font-weight-bold">Power: </span>{{ signal_power }}</p>
@@ -44,16 +44,18 @@
 
   <div id="signal_fft_plot" class="ml-2 mr-2 mt-4"></div>
 
-  <h6 class="pl-2">Filtration:</h6>
-  <div class="bg-light pr-4 pl-4 pb-4">
-    <div class="row mt-3">
+  <div id="accordion" class="w-75 mr-auto ml-auto">
 
-      <div class="col-lg-4 text-center">
-        <div class="bg-light pr-4 pl-4 pt-2 mt-1 mb-1">
-
+    <h6 class="pl-2">Filtration:</h6>
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <h6 class="mt-2">LOWPASS</h6>
+        </button>
+      </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
           <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
-
-            <h6>Lowpass</h6>
 
             <input type="hidden" name="filter_type" value="lowpass">
             <input type="hidden" name="signal_id" value="{{ signal.id }}">
@@ -61,7 +63,7 @@
             <label>Filter length:</label>
             <input name="filter_len" value="filter_len" type="number" class="form-control" required="">
 
-            <label class="mt-2">Cutoff frq:</label>
+            <label class="mt-2">Cutoff frequency:</label>
             <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
 
             <input type="hidden" name="cutoff_frq2" value="None">
@@ -73,19 +75,22 @@
                   <option value="blackman">Blackman</option>
             </select>
 
-            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+            <button class="btn btn-outline-success mt-3">Perform Filtration</button>
 
           </form>
-
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-4 text-center">
-        <div class="bg-light pr-4 pl-4 pt-2 mt-1 mb-1">
-
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <h6 class="mt-2">HIGHPASS</h6>
+        </button>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
           <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
-
-            <h6>Highpass</h6>
 
             <input type="hidden" name="filter_type" value="highpass">
             <input type="hidden" name="signal_id" value="{{ signal.id }}">
@@ -93,7 +98,7 @@
             <label>Filter length:</label>
             <input name="filter_len" value="filter_len" type="number" class="form-control" required="">
 
-            <label class="mt-2">Cutoff frq:</label>
+            <label class="mt-2">Cutoff frequency:</label>
             <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
 
             <input type="hidden" name="cutoff_frq2" value="None">
@@ -105,16 +110,21 @@
                   <option value="blackman">Blackman</option>
             </select>
 
-            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+            <button class="btn btn-outline-success mt-3">Perform Filtration</button>
 
           </form>
-
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-4 text-center">
-        <div class="bg-light pr-4 pl-4 pt-2 mt-1 ">
-
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <h6 class="mt-2">BANDPASS</h6>
+        </button>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
           <form class="form-group mt-2 text-center" action="{% url 'display-filtration' %}" method="GET">
 
             <h6>Bandpass</h6>
@@ -127,11 +137,11 @@
 
             <div class="row">
               <div class="col-lg-6">
-                <label class="mt-2">Cutoff frq low:</label>
+                <label class="mt-2">Cutoff frequency low:</label>
                 <input name="cutoff_frq" value="cutoff_frq" type="number" class="form-control" required="">
               </div>
               <div class="col-lg-6">
-                <label class="mt-2">Cutoff frq high:</label>
+                <label class="mt-2">Cutoff frequency high:</label>
                 <input name="cutoff_frq2" value="cutoff_frq2" type="number" class="form-control" required="">
               </div>
             </div>
@@ -144,14 +154,14 @@
                   <option value="blackman">Blackman</option>
             </select>
 
-            <button class="btn btn-outline-success btn-sm mt-3">Perform Filtration</button>
+            <button class="btn btn-outline-success mt-3">Perform Filtration</button>
 
           </form>
 
         </div>
       </div>
-
     </div>
+
   </div>
 
 
